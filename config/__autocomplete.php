@@ -27,7 +27,7 @@ class __Application {
 }
 
 /**
- * @property app\models\Users $identity
+ * @property app\models\User $identity
  */
 class __WebUser {
 }

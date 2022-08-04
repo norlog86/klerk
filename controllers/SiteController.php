@@ -3,9 +3,7 @@
 namespace app\controllers;
 
 use app\models\Materials;
-use app\models\Subscriptions;
 use Yii;
-use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,23 +63,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //Получаем общее количество статей
-        $page = count(Materials::find()->all());
-
-        //Подключаем пагинацию
-        $pagination = new Pagination(['totalCount' => $page, 'pageSize' => 3]);
-
-        $pagination->pageSizeParam = false;
-        $pagination->forcePageParam = false;
-
-        //Выставляем ограничение на количество статей на одной странице
-        $materials = Materials::find()->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
+        $materials = Materials::find()->all();
         return $this->render('index', [
             'materials' => $materials,
-            'pagination' => $pagination,
         ]);
     }
 
@@ -152,16 +136,6 @@ class SiteController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    public function actionSubscription($id, $blog_id, $user_id)
-    {
-        $subscriptions = new Subscriptions;
-        $subscriptions->getSubscript($blog_id, $user_id);
-
-        return $this->render('view-materials', [
-            'model' => $this->findModel($id),
-        ]);
     }
 
     /**
