@@ -14,7 +14,7 @@ use Yii;
  * @property Companies $company
  * @property Materials[] $materials
  * @property Subscriptions[] $subscriptions
- * @property Users $user
+ * @property User $user
  */
 class Blogs extends \yii\db\ActiveRecord
 {
@@ -33,7 +33,8 @@ class Blogs extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'company_id'], 'integer'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['name'], 'string', 'max' => 50],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
@@ -87,6 +88,6 @@ class Blogs extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }
