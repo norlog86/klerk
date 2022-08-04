@@ -57,7 +57,7 @@ class Blogs extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCompany()
+    public function getCompany(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Companies::className(), ['id' => 'company_id']);
     }
@@ -67,7 +67,7 @@ class Blogs extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getMaterials()
+    public function getMaterials(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Materials::className(), ['blog_id' => 'id']);
     }
@@ -77,7 +77,7 @@ class Blogs extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSubscriptions()
+    public function getSubscriptions(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Subscriptions::className(), ['blog_id' => 'id']);
     }
@@ -87,7 +87,7 @@ class Blogs extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUser(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }

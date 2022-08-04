@@ -98,7 +98,7 @@ class BlogsController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id)
     {
         $model = $this->findModel($id);
 
@@ -118,7 +118,7 @@ class BlogsController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id)
     {
         $this->findModel($id)->delete();
 
@@ -189,8 +189,9 @@ class BlogsController extends Controller
      * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteMaterials($id)
+    public function actionDeleteMaterials(int $id)
     {
         $this->findModel($id)->delete();
 

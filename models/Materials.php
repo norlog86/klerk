@@ -65,7 +65,7 @@ class Materials extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBlog()
+    public function getBlog(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Blogs::className(), ['id' => 'blog_id']);
     }
@@ -80,7 +80,7 @@ class Materials extends \yii\db\ActiveRecord
         return $this->hasOne(Comments::className(), ['material_id' => 'id']);
     }
 
-    public function getIsSubBlog($user_id)
+    public function getIsSubBlog(int $user_id)
     {
         return $this::find()->alias('mat')
             ->select(['sub.user_id as user_id'])

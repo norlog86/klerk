@@ -78,7 +78,7 @@ class Subscriptions extends \yii\db\ActiveRecord
         return $this->hasOne(Blogs::className(), ['id' => 'blog_id']);
     }
 
-    public function getSubscript($blog_id, $user_id)
+    public function getSubscript(int $blog_id, int $user_id)
     {
         $this->blog_id = $blog_id;
         $this->user_id = $user_id;
@@ -91,7 +91,7 @@ class Subscriptions extends \yii\db\ActiveRecord
 
     }
 
-    public function getUserSub($user_id): array
+    public function getUserSub(int $user_id): array
     {
         return $this::find()->alias('sub')
             ->select([

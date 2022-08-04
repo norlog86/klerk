@@ -67,7 +67,7 @@ class Comments extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getMaterial()
+    public function getMaterial(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Materials::className(), ['id' => 'material_id']);
     }
@@ -77,12 +77,12 @@ class Comments extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUser(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function getNewComment($content, $user_id, $material_id)
+    public function getNewComment(string $content, int $user_id, int $material_id)
     {
         $new_comment = new Comments();
 
@@ -92,7 +92,7 @@ class Comments extends \yii\db\ActiveRecord
         $new_comment->save();
     }
 
-    public function getDelComment($id)
+    public function getDelComment(int $id)
     {
         $comment = Comments::findOne(['id' => $id]);
         $comment->delete();

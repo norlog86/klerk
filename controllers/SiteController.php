@@ -92,7 +92,7 @@ class SiteController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionViewMaterials($id)
+    public function actionViewMaterials(int $id)
     {
         $comments = Comments::find()->where(['material_id' => $id])->all();
 
@@ -110,14 +110,14 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionDeleteComment($id, $material_id)
+    public function actionDeleteComment(int $id, int $material_id)
     {
         Comments::findOne(['id' => $id])->delete();
 
         return $this->redirect('view-materials?id=' . $material_id);
     }
 
-    public function actionSubscription($id, $blog_id, $user_id)
+    public function actionSubscription(int $id, int $blog_id, int $user_id)
     {
         $subscriptions = new Subscriptions;
         $subscriptions->getSubscript($blog_id, $user_id);

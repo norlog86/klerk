@@ -54,7 +54,7 @@ class Companies extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBlogs()
+    public function getBlogs(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Blogs::className(), ['company_id' => 'id']);
     }

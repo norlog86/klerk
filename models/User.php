@@ -2,6 +2,9 @@
 
 namespace app\models;
 
+/**
+ * @property mixed|null $password
+ */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     /**
@@ -38,7 +41,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         ];
     }
 
-    public static function findIdentity($id)
+    public static function findIdentity($id): User|\yii\web\IdentityInterface|null
     {
         return User::findOne($id);
     }
@@ -62,12 +65,12 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         // TODO: Implement findIdentityByAccessToken() method.
     }
 
-    public static function findByLogin($login)
+    public static function findByLogin($login): User|array|\yii\db\ActiveRecord|null
     {
         return User::find()->where(['login'=>$login])->one();
     }
 
-    public function validatePassword($password)
+    public function validatePassword($password): bool
     {
         return ($this->password == $password) ? true : false;
     }
