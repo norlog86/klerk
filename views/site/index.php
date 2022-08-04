@@ -10,12 +10,6 @@ $this->title = 'BlogS';
 ?>
 <div class="site-index">
 
-    <!--    Если пользователь авторизован, то он может создать статью-->
-    <?php if (!Yii::$app->user->isGuest): ?>
-        <p>
-            <?= Html::a('Создать статью', ['create-materials'], ['class' => 'btn btn-success']) ?>
-        </p>
-    <?php endif; ?>
 
     <div class="body-content">
 

@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Blogs */
@@ -24,13 +27,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Создать статью', ['create-materials'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'name',
+    <h2>Материалы написанные в этом блоге</h2>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'title',
+            'content',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, \app\models\Materials $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                }
+            ],
         ],
-    ]) ?>
+    ]); ?>
 
 </div>

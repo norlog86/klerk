@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Blogs;
 use app\models\BlogsSears;
+use app\models\Materials;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -53,10 +54,15 @@ class BlogsController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id): string
+    public function actionView(int $id): string
     {
+        $searchModel = new BlogsSears();
+        $dataProvider = $searchModel->getAllMaterialsByBlog($this->request->queryParams, $id);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -65,7 +71,7 @@ class BlogsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate(): \yii\web\Response|string
     {
         $model = new Blogs();
 
@@ -113,6 +119,75 @@ class BlogsController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * Displays a single Materials model.
+     * @param int $id ID
+     * @return string
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionViewMaterials(int $id): string
+    {
+        return $this->render('view-materials', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new Materials model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return string|\yii\web\Response
+     */
+    public function actionCreateMaterials(): \yii\web\Response|string
+    {
+        $model = new Materials();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create-materials', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Updates an existing Materials model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param int $id ID
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdateMaterials(int $id): \yii\web\Response|string
+    {
+        $model = $this->findModel($id);
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update-materials', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Deletes an existing Materials model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param int $id ID
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDeleteMaterials($id)
     {
         $this->findModel($id)->delete();
 
