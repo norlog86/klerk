@@ -15,16 +15,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if ($model->blog->user_id == $model->blog_id): ?>
+    <?php if (!Yii::$app->user->isGuest): ?>
     <p>
-        <?= Html::a('Update', ['update-materials', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete-materials', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?= Html::a('Subscript', ['subscription', 'id' => $model->id, 'blog_id' => $model->blog_id, 'user_id' => 1],
+            ['class' => 'btn btn-warning']) ?>
+        <?php if ($model->blog->user_id == $model->blog_id): ?>
+            <?= Html::a('Update', ['update-materials', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Delete', ['delete-materials', 'id' => $model->id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+        <?php endif; ?>
     </p>
     <?php endif; ?>
 

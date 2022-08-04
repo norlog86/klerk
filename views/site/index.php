@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var $materials */
@@ -30,6 +31,6 @@ $this->title = 'BlogS';
                 </div>
             <?php endforeach; ?>
         </div>
-
+        <?= LinkPager::widget(['pagination' => $pagination,  'registerLinkTags' => true]) ?>
     </div>
 </div>

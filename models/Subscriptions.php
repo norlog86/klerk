@@ -30,8 +30,20 @@ class Subscriptions extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'blog_id'], 'integer'],
-            [['blog_id'], 'exist', 'skipOnError' => true, 'targetClass' => Blogs::className(), 'targetAttribute' => ['blog_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [
+                ['blog_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Blogs::className(),
+                'targetAttribute' => ['blog_id' => 'id'],
+            ],
+            [
+                ['user_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Users::className(),
+                'targetAttribute' => ['user_id' => 'id'],
+            ],
         ];
     }
 
@@ -54,6 +66,19 @@ class Subscriptions extends \yii\db\ActiveRecord
     public function getBlog()
     {
         return $this->hasOne(Blogs::className(), ['id' => 'blog_id']);
+    }
+
+    public function getSubscript($blog_id, $user_id)
+    {
+        $this->blog_id = $blog_id;
+        $this->user_id = $user_id;
+
+        if ($this->save()) {
+            return true;
+        } else {
+            die('Error save');
+        }
+
     }
 
     /**
