@@ -68,6 +68,16 @@ class m220803_181127_create_blogs_table extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->insert('blogs',[
+            'user_id' => '1',
+        ]);
+        $this->insert('blogs',[
+            'user_id' => '2',
+        ]);
+        $this->insert('blogs',[
+            'user_id' => '3',
+        ]);
     }
 
     /**

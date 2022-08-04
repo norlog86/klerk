@@ -30,6 +30,12 @@ class m220803_181100_create_companies_table extends Migration
             'companies',
             'id'
         );
+
+        $this->insert('companies',[
+            'title' => 'test',
+            'website' => 'test.ru',
+            'address' => 'test',
+        ]);
     }
 
     /**

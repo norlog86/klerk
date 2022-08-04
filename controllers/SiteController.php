@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Comments;
 use app\models\Materials;
 use app\models\Subscriptions;
 use Yii;
@@ -93,9 +94,27 @@ class SiteController extends Controller
      */
     public function actionViewMaterials($id)
     {
+        $comments = Comments::find()->where(['material_id' => $id])->all();
+
+        $new_comment = new Comments();
+        if ($this->request->isPost) {
+            if ($new_comment->load($this->request->post())) {
+                $new_comment->getNewComment($new_comment['content'], Yii::$app->user->getId(), $id);
+                return $this->redirect('view-materials?id=' . $id);
+            }
+        }
         return $this->render('view-materials', [
             'model' => $this->findModel($id),
+            'new_comment' => $new_comment,
+            'comments' => $comments,
         ]);
+    }
+
+    public function actionDeleteComment($id, $material_id)
+    {
+        Comments::findOne(['id' => $id])->delete();
+
+        return $this->redirect('view-materials?id=' . $material_id);
     }
 
     public function actionSubscription($id, $blog_id, $user_id)
@@ -103,9 +122,7 @@ class SiteController extends Controller
         $subscriptions = new Subscriptions;
         $subscriptions->getSubscript($blog_id, $user_id);
 
-        return $this->render('view-materials', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->redirect('view-materials?id=' . $id);
     }
 
     /**
@@ -158,7 +175,7 @@ class SiteController extends Controller
 
         return $this->render('subscriptions', [
             'subs' => $subs,
-            ]);
+        ]);
     }
 
     /**
@@ -168,7 +185,7 @@ class SiteController extends Controller
      * @return Materials the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel(int $id): Materials
     {
         if (($model = Materials::findOne(['id' => $id])) !== null) {
             return $model;

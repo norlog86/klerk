@@ -19,15 +19,6 @@ class m220803_191108_create_comments_table extends Migration
         ]);
 
         /**
-         * Создание индекса для поля material_id
-         */
-        $this->createIndex(
-            'idx-comments-material_id',
-            'comments',
-            'material_id'
-        );
-
-        /**
          * Создание индекса для поля user_id
          */
         $this->createIndex(

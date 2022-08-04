@@ -17,6 +17,8 @@ use Yii;
  */
 class Materials extends \yii\db\ActiveRecord
 {
+    public int $user_id;
+
     /**
      * {@inheritdoc}
      */
@@ -35,7 +37,13 @@ class Materials extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['blog_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['blog_id'], 'exist', 'skipOnError' => true, 'targetClass' => Blogs::className(), 'targetAttribute' => ['blog_id' => 'id']],
+            [
+                ['blog_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Blogs::className(),
+                'targetAttribute' => ['blog_id' => 'id'],
+            ],
         ];
     }
 
@@ -70,5 +78,15 @@ class Materials extends \yii\db\ActiveRecord
     public function getComments()
     {
         return $this->hasOne(Comments::className(), ['material_id' => 'id']);
+    }
+
+    public function getIsSubBlog($user_id)
+    {
+        return $this::find()->alias('mat')
+            ->select(['sub.user_id as user_id'])
+            ->distinct()
+            ->innerJoin(['sub' => 'subscriptions'], 'sub.blog_id = mat.blog_id')
+            ->where(['sub.user_id' => $user_id])
+            ->one();
     }
 }

@@ -12,7 +12,7 @@ use Yii;
  * @property string|null $content
  *
  * @property Materials $material
- * @property Users $user
+ * @property User $user
  */
 class Comments extends \yii\db\ActiveRecord
 {
@@ -33,9 +33,20 @@ class Comments extends \yii\db\ActiveRecord
             [['material_id', 'user_id'], 'required'],
             [['material_id', 'user_id'], 'integer'],
             [['content'], 'string'],
-            [['material_id'], 'unique'],
-            [['material_id'], 'exist', 'skipOnError' => true, 'targetClass' => Materials::className(), 'targetAttribute' => ['material_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [
+                ['material_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Materials::className(),
+                'targetAttribute' => ['material_id' => 'id'],
+            ],
+            [
+                ['user_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => User::className(),
+                'targetAttribute' => ['user_id' => 'id'],
+            ],
         ];
     }
 
@@ -68,6 +79,22 @@ class Comments extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getNewComment($content, $user_id, $material_id)
+    {
+        $new_comment = new Comments();
+
+        $new_comment->material_id = $material_id;
+        $new_comment->user_id = $user_id;
+        $new_comment->content = $content;
+        $new_comment->save();
+    }
+
+    public function getDelComment($id)
+    {
+        $comment = Comments::findOne(['id' => $id]);
+        $comment->delete();
     }
 }

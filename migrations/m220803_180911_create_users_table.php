@@ -33,6 +33,28 @@ class m220803_180911_create_users_table extends Migration
             'users',
             'id'
         );
+
+
+        $this->insert('users',[
+            'name' => 'Ivan',
+            'login' => 'Ivan',
+            'email' => 'Ivan@mail.ru',
+            'phone' => '231',
+        ]);
+
+        $this->insert('users',[
+            'name' => 'Petr',
+            'login' => 'Petr',
+            'email' => 'Petr@mail.ru',
+            'phone' => '123',
+        ]);
+
+        $this->insert('users',[
+            'name' => 'Fedya',
+            'login' => 'Fedya',
+            'email' => 'Fedya@mail.ru',
+            'phone' => '312',
+        ]);
     }
 
     /**
