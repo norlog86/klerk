@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Materials;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +62,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $materials = Materials::find()->all();
+        return $this->render('index', [
+            'materials' => $materials,
+        ]);
     }
 
     /**
