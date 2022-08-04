@@ -143,13 +143,16 @@ class BlogsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreateMaterials(): \yii\web\Response|string
+    public function actionCreateMaterials($blog_id): \yii\web\Response|string
     {
         $model = new Materials();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $model->blog_id = $blog_id;
+                if ($model->save()){
+                return $this->redirect(['view', 'id' => $model->blog_id]);
+                }
             }
         } else {
             $model->loadDefaultValues();

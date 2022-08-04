@@ -5,6 +5,7 @@ use yii\widgets\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var $materials */
+/** @var $pagination */
 
 $this->title = 'BlogS';
 ?>
@@ -19,6 +20,7 @@ $this->title = 'BlogS';
                     <h2><?= $material->title ?></h2>
 
                     <p><?= $material->content ?></p>
+                    <p><b>Принадлежит блогу:</b><?= $material->blog->name ?></p>
 
                     <p> <?= Html::a('Перейти&raquo;', ['view-materials', 'id' => $material->id],
                             ['class' => 'btn btn-outline-secondary']) ?></p>

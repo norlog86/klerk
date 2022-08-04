@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <!--            Пользователь не может подписаться сам на себя-->
             <?php if (!($model->blog->user_id == Yii::$app->user->identity->getId())): ?>
                 <?= Html::a('Subscript',
-                    ['subscription', 'id' => $model->id, 'blog_id' => $model->blog_id, 'user_id' => 1],
+                    ['subscription', 'id' => $model->id, 'blog_id' => $model->blog_id, 'user_id' => Yii::$app->user->getId()],
                     ['class' => 'btn btn-warning']) ?>
             <?php endif; ?>
 
@@ -39,13 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
     <?php endif; ?>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'content:ntext',
-        ],
-    ]) ?>
+    <p><?= $model->content ?></p>
+
+    <p><b>Принадлежит блогу:</b><?= $model->blog->name ?></p>
 
 </div>

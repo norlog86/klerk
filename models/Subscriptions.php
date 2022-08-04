@@ -11,16 +11,26 @@ use Yii;
  * @property int|null $blog_id
  *
  * @property Blogs $blog
- * @property Users $user
+ * @property User $user
  */
 class Subscriptions extends \yii\db\ActiveRecord
 {
+    public int $mat_id;
+    public string $title;
+    public string $content;
+    public string $blog_name;
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'subscriptions';
+    }
+
+    public static function primaryKey(): array
+    {
+        return ['user_id'];
     }
 
     /**
@@ -63,7 +73,7 @@ class Subscriptions extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBlog()
+    public function getBlog(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Blogs::className(), ['id' => 'blog_id']);
     }
@@ -81,12 +91,28 @@ class Subscriptions extends \yii\db\ActiveRecord
 
     }
 
+    public function getUserSub($user_id): array
+    {
+        return $this::find()->alias('sub')
+            ->select([
+                'mat.id as mat_id',
+                'mat.title as title',
+                'mat.content as content',
+                'blogs.name as blog_name'
+            ])
+            ->distinct()
+            ->innerJoin(['mat' => 'materials'],'mat.blog_id = sub.blog_id')
+            ->leftJoin('blogs','blogs.id = sub.blog_id')
+            ->where(['sub.user_id' => $user_id])
+            ->all();
+    }
+
     /**
      * Gets query for [[User]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUser(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
